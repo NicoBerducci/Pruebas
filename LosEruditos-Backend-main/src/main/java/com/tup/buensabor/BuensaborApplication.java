@@ -3,6 +3,7 @@ package com.tup.buensabor;
 import com.tup.buensabor.entities.*;
 import com.tup.buensabor.enums.EstadoPedido;
 import com.tup.buensabor.enums.FormaPago;
+import com.tup.buensabor.enums.Rol;
 import com.tup.buensabor.enums.TipoEnvio;
 import com.tup.buensabor.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,8 @@ public class BuensaborApplication {
 					.fechaAlta(calendar1.getTime())
 					.fechaBaja(null)
 					.fechaModificacion(null)
+					.password("a")
+					.rol(Rol.CLIENTE)
 					.build();
 
 			usuarioRepository.save(usuario);

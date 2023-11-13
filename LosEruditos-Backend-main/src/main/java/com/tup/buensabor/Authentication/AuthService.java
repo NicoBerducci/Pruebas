@@ -21,8 +21,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails usuario= (UserDetails) usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), passwordEncoder.encode(request.getPassword())));
+        UserDetails usuario = usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
         String token=jwtService.getToken(usuario);
         return AuthResponse.builder()
                 .token(token)
@@ -31,16 +31,16 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
-        Usuario usuario = Usuario.builder()
+        /*Usuario usuario = Usuario.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode( request.getPassword()))
-
-                .build();
-
+                .rol(Rol.CLIENTE)
+                .build();*/
+        Usuario usuario = new Usuario(request.getUsername(), passwordEncoder.encode(request.getPassword()));
         usuarioRepository.save(usuario);
 
         return AuthResponse.builder()
-                .token(jwtService.getToken((UserDetails) usuario))
+                .token(jwtService.getToken(usuario))
                 .build();
 
     }
