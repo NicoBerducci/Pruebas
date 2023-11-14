@@ -37,8 +37,10 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Long> implement
     @Override
     public Page<RankingClienteDTO> rankingCliente(Date desde, Date hasta, Pageable pageable) throws Exception {
         try {
-            List<Object[]> rankingCliente = clienteRepository.rankingCliente(desde, hasta, pageable);
+            //List<Object[]> rankingCliente = clienteRepository.rankingCliente(desde, hasta, pageable);
+            List<RankingClienteDTO> rankingCliente = clienteRepository.rankingCliente(desde, hasta, pageable);
 
+            /*
             List<RankingClienteDTO> listaRankings = new ArrayList<>();
 
             for (int i=0; i<rankingCliente.size(); i++) { //recorremos las tuplas o cantidad distinta de personas
@@ -58,9 +60,9 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Long> implement
                 //    System.out.println(j);
                 //    System.out.println(row[j]);
                 //}
-            }
+            }*/
             //Page<RankingClienteDTO> rankings = new PageImpl<>(listaRankings, rankingCliente.getPageable(), rankingCliente.getTotalElements());
-            Page<RankingClienteDTO> rankings = new PageImpl<>(listaRankings, pageable, rankingCliente.size());
+            Page<RankingClienteDTO> rankings = new PageImpl<>(rankingCliente, pageable, rankingCliente.size());
             return rankings;
         }catch (Exception e){
             throw new Exception(e.getMessage());
